@@ -1,0 +1,73 @@
+// VNC Hooks
+static void goneClient(rfbClientPtr client) {
+  client->clientData = NULL;
+  connectedClients--;
+}
+static enum rfbNewClientAction newClient(rfbClientPtr client) {
+  client->clientGoneHook = goneClient;
+  connectedClients++;
+  return RFB_CLIENT_ACCEPT;
+}
+
+// Count card entries
+int countEntries() {
+  int entries = 0;
+
+  // Regular expression for /dev/dri/cardX
+  regex_t regExp;
+  regcomp(&regExp, "^card[0-9]*$", REG_NOSUB);
+
+  // Scan through /dev/dri to find card entries
+  DIR *dir = opendir("/dev/dri");
+  if(dir != NULL) {
+    struct dirent *dirEntry;
+    while ((dirEntry = readdir(dir))) {
+      if(!regexec(&regExp, dirEntry->d_name, 0, NULL, 0)) {
+        entries++;
+      }
+    }
+  } else {
+    printf("Couldn't open /dev/dri\n");
+  }
+
+  return entries++;
+}
+
+char * allocateVNCFramebuffer(rfbScreenInfoPtr screen) {
+  return buffer.buffer;
+}
+
+// Find available node
+int findAvailableNode() {
+  int availableNode = -1;
+
+  do {
+    int cardEntries = countEntries();
+    
+    for(int i = 0; i < cardEntries; i++) {
+      if (evdi_check_device(i) == AVAILABLE) {
+        availableNode = i;
+        goto end;
+      }
+    }
+
+    if(!evdi_add_device()) {
+      printf("Couldn't create evdi node. Check if evdi module is loaded.\n");
+      break;
+    }
+  } while(availableNode == -1);
+  end: ;
+
+  return availableNode;
+}
+
+// Open node
+evdi_handle openNode() {
+  int entryNumber = findAvailableNode();
+
+  if(entryNumber == -1) {
+    return EVDI_INVALID_HANDLE;
+  }
+
+  return evdi_open(entryNumber);
+}

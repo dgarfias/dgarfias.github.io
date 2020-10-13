@@ -1,0 +1,84 @@
+@font-face {
+  font-family: fantasque;
+  font-style: normal;
+  src: url('fonts/fantasque.woff2') format('woff2'),
+       url('fonts/fantasque.woff') format('woff'),
+       url('fonts/fantasque.ttf')  format('truetype');
+}
+
+@font-face {
+  font-family: cookie;
+  font-style: normal;
+  src: url('fonts/cookie.woff2') format('woff2'),
+       url('fonts/cookie.woff') format('woff'),
+       url('fonts/cookie.ttf')  format('truetype');
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+   background-image: linear-gradient(to right bottom, #152c99, #0069d2, #0096c4, #00bb7d, #78d610);
+}
+
+#backcode {
+  max-height: 100%;
+  overflow: hidden;
+  white-space: pre;
+  font-family: fantasque;
+  font-size: 20px;
+  color: rgba(255, 255, 255, .5);
+  box-sizing: border-box;
+  padding: 8px;
+}
+
+.content {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+    top: 0;
+    left: 0;
+  text-align: center;
+  font-family: sans-serif;
+  font-size: 14px;
+}
+
+.middle {
+  position: relative;
+    top: 50%;
+  margin-top: -107px;
+  display: inline-block;
+  color: white;
+  text-align: right;
+  text-shadow: 1px 1px 0px #444444;
+}
+
+.name {
+  font-family: cookie;
+  line-height: 200px;
+  font-size: 170px
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+a:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.footer {
+  position: absolute;
+    bottom: 0;
+  margin-bottom: 4px;
+  width: 100%;
+  text-align: center;
+  color: white;
+  font-size: 10px;
+  font-family: sans-serif;
+}
+
