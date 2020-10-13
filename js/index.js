@@ -3,7 +3,7 @@ $(document).ready(function() {
     url : "sample.txt",
     dataType: "text",
     success : function (data) {
-      $("#backcode").html(data);
+      $("#backcode").text(data);
     }
   });
 });
